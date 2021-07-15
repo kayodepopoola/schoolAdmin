@@ -1,0 +1,1422 @@
+create table PrintedReports
+   (
+    dTitle		varchar(60)	not null primary key,
+    dReport		varchar(60)	not null,
+    dView		varchar(60)	not null,
+    dOrder		varchar(10)	not null,
+    dType		varchar(15)	not null,
+    dClass		varchar(25)	not null
+   )
+go
+CREATE TABLE [dbo].[appSettings](
+	[dID] [int] NOT NULL PRIMARY KEY,
+	[dName] [varbinary](256) NOT NULL,
+	[dAddr1] [varbinary](256) NOT NULL,
+	[dAddr2] [varbinary](256) NOT NULL,
+	[dAddr3] [varbinary](256) NOT NULL,
+	[Phone] [varbinary](256) NOT NULL,
+	[email] [varbinary](256) NOT NULL,
+	[website] [varbinary](256) NOT NULL,
+	[dTaxMethod] [varchar](10) NOT NULL,
+	[dAmountMethod] [varchar](10) NOT NULL,
+	[dExpiryDate] [varbinary](256) NOT NULL,
+	[dModules] [varbinary](256) NOT NULL,
+	[blnConfirm] [varchar](5) NOT NULL
+)
+
+go
+create table activityLog
+  (
+    dID				bigint		identity not null primary key,
+    ActivityUserID		varchar(45)	not null,
+    ActivityDate		datetime	not null,
+    ActivityModule		varchar(45)	not null,
+    ActivityAction		varchar(45)	not null,
+    ActivityData		varchar(45)	not null
+  )
+go
+create table PayrollSummary
+ (
+   dID			int	not null primary key,
+   earn1		int	not null default 0,
+   prorata		int	not null default 0,
+   deduct1		int	not null default 0,
+   earndeduct		int	not null default 0,
+   earnfixed		int	not null default 0,
+   paye		int	not null default 0,
+   repay		int	not null default 0,
+   overT		int	not null default 0
+ )
+go
+insert into PayrollSummary(dID) values (1)
+go
+create table dUserAccounts
+  (
+   lID				bigint		identity	primary key,
+   dUserID			varbinary(256)	not null,
+   dPassword			varbinary(256)	not null,
+   dPermissions			varbinary(256)	not null
+ )
+go
+create table depts
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null,
+    deptHead		varchar(25)	null
+  )
+go
+create table jobtitles
+  (
+    deptcode		varchar(25)	not null,
+    jobtitleCode	varchar(25)	not null,
+    Description		varchar(45)	not null,
+    constraint deptjob_pk primary key(deptcode,jobtitleCode)
+  )
+go
+create table banks
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null
+  )
+go 
+insert into banks values ('100100','first bank'),('100105','gtbank'),('100110','fcmb'),('100115','fidelity') 
+go
+insert into banks values ('100120','wema bank'),('100125','zenith bank'),('100130','access bank'),('100135','uba') 
+go
+create table dBranches
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null
+  )
+go
+create table PManagers
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null
+  )
+go
+create table PaymentLevels
+(
+    LevelCode		varchar(25)	not null primary key,
+    LevelDescription	varchar(75)	not null,
+    dGrossPay		numeric(12,2)	not null
+  )
+go
+create table stateCodes
+  (
+    code		char(2)		not null primary key,
+    Description		varchar(45)	not null
+  )
+go
+create table Specializations
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null
+  )
+go
+insert into Specializations values ('100100','Accounting'),('100105','Engineering'),('100110','Marketing'),('100115','Computer Science') 
+go
+insert into Specializations values ('100120','Education'),('100125','Social Science'),('100130','Economics'),('100135','Administration') 
+go
+create table Qualifications
+  (
+    code		varchar(25)	not null primary key,
+    Description		varchar(45)	not null
+  )
+go
+insert into Qualifications values ('100100','Certificate'),('100105','Diploma'),('100110','NCE'),('100115','HND') 
+go
+insert into Qualifications values ('100120','OND'),('100125','BSC'),('100130','MSC'),('100135','PHD') 
+go
+create table staff
+  (
+    staffID		varchar(25)	not null primary key,
+    FirstName		varchar(45)	not null,
+    MiddleName		varchar(45)	not null,
+    LastName		varchar(45)	not null,
+    hiredate		datetime	null,
+    birthdate		datetime	null,
+    maritalStatus	varchar(10)	null,
+    gender		varchar(10)	null,
+    stateoforigin	char(2)		null,
+    stateofresidence	char(2)		null,
+    streetAddress1	varchar(45)	null default '75, idowu taylor, vi ',
+    streetAddress2	varchar(45)	null default 'lagos',
+    streetAddress3	varchar(45)	null default 'nigeria',
+    emailAddress	varchar(75)	null default 'info@gmail.com',
+    phone		varchar(11)	null default '0801234560',
+    scertificate	varchar(25)	null,
+    specialization	varchar(25)	null,
+    ref1Name		varchar(45)	null default 'emeka okotie ortom',
+    ref1Address		varchar(45)	null default '56, samuel street, zungeru ',
+    ref1Phone		varchar(11)	null default '0801234567',
+    ref2Name		varchar(45)	null default 'kola danladi akpan',
+    ref2Address		varchar(45)	null default '87, adaji way, onitsha ',
+    ref2Phone		varchar(11)	null default '0801234568', 
+    nxtKinName		varchar(45)	null default 'ibrahim maikudi alaranse',
+    nxtKinAddress	varchar(45)	null default '450, atunwa street, ondo ',
+    nxtKinPhone		varchar(11)	null default '0801234569',
+    deptCode		varchar(25)	null,
+    jobtitleCode	varchar(25)	null,
+    BranchCode		varchar(25)	null,
+    PMCode		varchar(25)	null,
+    PNumber		varchar(45)	null default '0801234567',
+    BankCode		varchar(25)	null,
+    BankAccount		varchar(10)	null default '0171548762',
+    LevelCode		varchar(25)	null,
+    blnxClude		varchar(5)	null default 'n',
+    blnDelete		varchar(5)	null default 'n',
+    leaveDays		int		null default 30
+  )
+go
+create table PaymentCodes
+(
+    PaymentCode		varchar(25)	not null primary key,
+    PaymentDescription	varchar(75)	not null unique,
+    PaymentType		char(1)		not null,
+    Taxable		varchar(5)	not null,
+    dRank		int		not null
+  )
+go
+create table PayrollCodes
+(
+    sno			int		not null primary key,
+    TaxCode		varchar(25)	not null,
+    TaxRate		numeric(7,2)	not null,
+    OCode		varchar(25)	not null,
+    ONormal		numeric(7,2)	not null,
+    OWeekend		numeric(7,2)	not null,
+    OHoliday		numeric(7,2)	not null,
+    PensionCode		varchar(25)	not null,
+    PensionRateStaff	numeric(7,2)	not null,
+    PensionRateOrg	numeric(7,2)	not null,
+    BasicPayCode	varchar(25)	not null
+)
+go
+create table Code4Pension
+(
+   PaymentCode		varchar(25)	not null primary key
+)
+go
+create table PaymentAmounts
+(
+   LevelCode		varchar(25)	not null,
+   PaymentCode		varchar(25)	not null,
+   dRate		numeric(6,2)	not null,
+   Amount		numeric(12,2)	not null,
+   constraint payamount_pk primary key(LevelCode,paymentCode)
+)
+go
+  
+create table TaxTable
+(
+   sno			int		not null primary key,
+   dAmount1		numeric(12,2)	not null,
+   dRate1		numeric(6,2)	not null,
+   dAmount2		numeric(12,2)	not null,
+   dRate2		numeric(6,2)	not null,
+   dAmount3		numeric(12,2)	not null,
+   dRate3		numeric(6,2)	not null,
+   dAmount4		numeric(12,2)	not null,
+   dRate4		numeric(6,2)	not null,
+   dAmount5		numeric(12,2)	not null,
+   dRate5		numeric(6,2)	not null,
+   dAmount6		numeric(12,2)	not null,
+   dRate6		numeric(6,2)	not null
+)
+go
+create table VariablePayments
+(
+   staffID		varchar(25)	not null,
+   xactionCode		varchar(25)	not null,
+   xactionAmount	numeric(12,2)	not null,
+   xactionDescription	varchar(45)	not null,
+   blnCleared		varchar(5)	not null default 'yes',
+   constraint VariablePayments_pk primary key(staffID,xactionCode)
+)
+go
+create table FixedPayments
+(
+   staffID		varchar(25)	not null,
+   xactionCode		varchar(25)	not null,
+   xactionAmount	numeric(12,2)	not null,
+   xactionDescription	varchar(45)	not null,
+   blnCleared		varchar(5)	not null default 'yes',
+   constraint FixedPayments_pk primary key(staffID,xactionCode)
+)
+go
+create table OTime
+(
+   staffID		varchar(25)	not null primary key,
+   ONormal		int		not null,
+   OWeekend		int		not null,
+   OHoliday		int		not null,
+   BasicPay		numeric(12,2)	not null,
+   Amount		numeric(12,2)	not null
+
+)
+go
+create table StaffTax
+(
+   StaffID		varchar(25)	not null primary key, 
+   Amount		numeric(12,2)	not null,
+   Tax			numeric(12,2)	not null
+)
+go
+create table StaffTaxYTD
+(
+   StaffID		varchar(25)	not null primary key, 
+   Amount		numeric(12,2)	not null,
+   Tax			numeric(12,2)	not null
+)
+go
+create table StaffPension
+(
+   StaffID		varchar(25)	not null primary key, 
+   Amount		numeric(12,2)	not null,
+   Pension		numeric(12,2)	not null,
+   PensionOrg		numeric(12,2)	not null
+)
+go
+create table StaffLoans
+(
+   LoanID		bigint		not null primary key,
+   staffID		varchar(25)	not null,
+   PaymentCode		varchar(25)	not null,
+   LoanAmount		numeric(12,2)	not null,
+   RepaymentAmount	numeric(12,2)	not null,
+   AmountRepaid		numeric(12,2)	not null,
+   startRepayment	datetime	not null,
+   stopRepayment	datetime	not null,
+   PayThis		numeric(12,2)	not null,
+   LoanDate		datetime	not null
+)
+go
+create table LoanRepayments 
+(
+ dID			bigint identity	not null primary key,
+ LoanID			bigint		not null,
+ RepaymentAmount	numeric(10,2)	not null,
+ dPeriod		varchar(10)	not null
+)
+go  
+create table CalcPay
+(
+   StaffID		varchar(25)	not null, 
+   PaymentCode		varchar(25)	not null,
+   Amount		numeric(12,2)	not null,
+   constraint CalcPay_pk primary key(StaffID,PaymentCode)
+)
+go
+create table CalcPayYTD
+(
+   StaffID		varchar(25)	not null, 
+   PaymentCode		varchar(25)	not null,
+   Amount		numeric(12,2)	not null,
+   constraint CalcPayYTD_pk primary key(StaffID,PaymentCode)
+)
+go
+create table CalcPayARC
+(
+   dPeriod		varchar(10)	not null,
+   StaffID		varchar(25)	not null, 
+   PaymentCode		varchar(25)	not null,
+   Amount		numeric(12,2)	not null,
+   sPeriod		varchar(25)	not null,
+   constraint CalcPayARC_pk primary key(dPeriod,StaffID,PaymentCode)
+)
+go
+create table FiscalPeriods
+ (
+    xid			int		not null primary key,
+    FiscalYear		int		not null,
+    FirstPeriod		datetime	not null,
+    LastPeriod		datetime	not null,
+    CurrentPeriod	datetime	not null
+  )
+go
+create table PaidDays
+  (
+    staffID		varchar(25)	not null primary key,
+    DaysAbsent		int not null
+ )
+go
+create table FIRSTax
+  (
+    	staffID		varchar(25)	not null primary key,
+	EarnedIncome	numeric(10,2)	not null,
+	CRA		numeric(10,2)	not null,
+	TaxRelief	numeric(10,2)	not null,
+	Taxable		numeric(10,2)	not null,
+	Tax		numeric(10,2)	not null
+  )
+go
+alter table staff add
+ constraint BankCode_fk foreign key(BankCode) references banks(code),
+ constraint PMCode_fk foreign key(PMCode) references PManagers(code),
+ constraint BranchCode_fk foreign key(BranchCode) references dBranches(code),
+ constraint LevelCode10_fk foreign key(LevelCode) references PaymentLevels(LevelCode),
+ constraint scertificate_fk foreign key(scertificate) references Qualifications(code),
+ constraint specialization_fk foreign key(specialization) references Specializations(code),
+ constraint stateoforigin_fk foreign key(stateoforigin) references stateCodes(code),
+ constraint stateofresidence_fk foreign key(stateofresidence) references stateCodes(code),
+ constraint deptjobtitle_fk foreign key(deptcode,jobtitlecode) references jobtitles(deptcode,jobtitleCode)
+go
+alter table jobtitles add
+ constraint deptCode_fk foreign key(deptCode) references depts(Code)
+go
+alter table PaymentAmounts add
+constraint LevelCode20_fk foreign key(LevelCode) references PaymentLevels(LevelCode),
+constraint PaymentCode10_fk foreign key(PaymentCode) references PaymentCodes(PaymentCode)
+go
+alter table PayrollCodes add
+ constraint TaxCode_fk foreign key(TaxCode) references PaymentCodes(PaymentCode),
+ constraint OCode_fk foreign key(OCode) references PaymentCodes(PaymentCode),
+ constraint PensionCode_fk foreign key(PensionCode) references PaymentCodes(PaymentCode),
+ constraint BasicPayCode_fk foreign key(BasicPayCode) references PaymentCodes(PaymentCode)
+go
+alter table Code4Pension add
+ constraint PaymentCode20_fk foreign key(PaymentCode) references PaymentCodes(PaymentCode)
+go
+alter table VariablePayments add
+ constraint staffID10_fk foreign key(staffID) references staff(staffID),
+ constraint xactionCode10_fk foreign key(xactionCode) references PaymentCodes(PaymentCode)
+go
+alter table FixedPayments add
+ constraint staffID20_fk foreign key(staffID) references staff(staffID),
+ constraint xactionCode20_fk foreign key(xactionCode) references PaymentCodes(PaymentCode)
+go
+alter table OTime add
+ constraint staffID30_fk foreign key(staffID) references staff(staffID)
+go
+alter table StaffTax add
+ constraint staffID40_fk foreign key(staffID) references staff(staffID)
+go
+alter table StaffPension add
+ constraint staffID50_fk foreign key(staffID) references staff(staffID)
+go
+alter table StaffLoans add
+ constraint staffID60_fk foreign key(staffID) references staff(staffID),
+ constraint PaymentCode30_fk foreign key(PaymentCode) references PaymentCodes(PaymentCode)
+go
+alter table CalcPay add
+ constraint staffID70_fk foreign key(staffID) references staff(staffID),
+ constraint PaymentCode40_fk foreign key(PaymentCode) references PaymentCodes(PaymentCode)
+go
+alter table PaidDays add
+ constraint staffID80_fk foreign key(staffID) references staff(staffID)
+go
+alter table FIRSTax add
+ constraint staffID90_fk foreign key(staffID) references staff(staffID)
+go
+insert into stateCodes values ('AD','ADAMAWA'),('AB','ABIA'),('AK','AKWA IBOM'),('AN','ANAMBRA'),('BA','BAUCHI'),('BN','BENUE')
+go
+insert into stateCodes values ('BR','BORNO'),('BY','BAYELSA'),('CR','CROSS RIVER'),('DT','DELTA'),('EB','EBONYI'),('ED','EDO')
+go
+insert into stateCodes values ('EK','EKITI'),('EN','ENUGU'),('FC','FEDERAL CAPITAL TERRITORY'),('GM','GOMBE'),('IM','IMO'),('JG','JIGAWA')
+go
+insert into stateCodes values ('KB','KEBBI'),('KD','KADUNA'),('KG','KOGI'),('KN','KANO'),('KW','KWARA')
+go
+insert into stateCodes values ('KT','KATSINA'),('LA','LAGOS'),('NG','NIGER'),('NS','NASARAWA'),('OD','ONDO'),('OG','OGUN')
+go
+insert into stateCodes values ('OS','OSHUN'),('OY','OYO'),('PL','PLATEU'),('RV','RIVERS'),('SO','SOKOTO'),('TB','TARABA')
+go
+insert into stateCodes values ('YB','YOBE'),('ZF','ZAMFARA')
+go
+insert into TaxTable values (1,300000,7,300000,11,500000,15,500000,19,1600000,21,3200000,24)
+go
+insert into FiscalPeriods values (1,1,'1-1-2019','12-31-2019','1-1-2019')
+go
+insert into appSettings
+ (dID,dName,dAddr1,dAddr2,dAddr3,Phone,email,webSite,
+  dTaxMethod,dAmountMethod,dExpiryDate,dModules,blnConfirm)
+ values 
+  (		 1,
+   ENCRYPTBYPASSPHRASE('alpha2$','DELUX LTD',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','125,JOHNSON STREET',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','LAGOS',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','NIGERIA',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','08035774290',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','info@gmail.com',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','www.xarest.com',0),
+   'FIRS',
+   'RATES',
+   ENCRYPTBYPASSPHRASE('alpha2$','1-1-2021',0),
+   ENCRYPTBYPASSPHRASE('alpha2$','11',0),
+   'Yes'
+  )
+go
+insert into dUserAccounts(dUserID,dPassword,dPermissions)
+ values 
+ (
+  ENCRYPTBYPASSPHRASE('alpha2$','admin',0),
+  ENCRYPTBYPASSPHRASE('alpha2$','sa12345$',0),
+  ENCRYPTBYPASSPHRASE('alpha2$','11111111111111',0)
+ ),
+ (
+  ENCRYPTBYPASSPHRASE('alpha2$','guest',0),
+  ENCRYPTBYPASSPHRASE('alpha2$','password',0),
+  ENCRYPTBYPASSPHRASE('alpha2$','00000000000000',0)
+ )
+go
+create view vwNotInPayments with encryption as
+select * 
+from PaymentCodes  
+where
+PaymentType in ('0','1') and
+PaymentCode not in (select PaymentCode from PaymentAmounts)
+go
+create view vwAddOneCode with encryption as
+select PaymentCode,PaymentDescription,
+PaymentCode + ':' + PaymentDescription as sDisplay
+from vwNotInPayments
+go
+create view vwDeductionList with encryption as
+  select a.staffID,a.FirstName,a.LastName,b.PaymentCode,b.Amount,
+     d.description as dept,e.description as dLocation,
+     c.PaymentDescription
+    from
+      staff a,CalcPay b,PaymentCodes  c, depts d, dBranches e
+    where a.staffID = b.StaffID
+      and b.PaymentCode = c.PaymentCode
+      and a.deptCode = d.Code
+      and a.BranchCode = e.Code
+      and b.Amount < 0
+go
+create view vwTaxReport with encryption as
+  select a.staffID,a.FirstName,a.LastName,b.Amount,
+     d.description as dept,e.description as dLocation
+    from
+      staff a,CalcPay b,PayrollCodes c, depts d, dBranches e
+    where a.staffID = b.StaffID
+      and b.PaymentCode = c.TaxCode
+      and a.deptCode = d.Code
+      and a.BranchCode = e.Code
+go
+create view vwOvertimeReport with encryption as
+  select a.staffID,a.FirstName,a.LastName,b.Amount,
+     d.description as dept,e.description as dLocation
+  from
+     staff a,CalcPay b,PayrollCodes c, depts d, dBranches e
+  where a.staffID = b.StaffID
+    and b.PaymentCode = c.OCode
+    and a.deptCode = d.Code
+    and a.BranchCode = e.Code
+go
+create view vwPensionReport with encryption as
+  select a.staffID,a.FirstName,a.LastName,b.Pension,b.PensionOrg,
+     c.description as dept,d.description as dLocation
+  from
+    staff a,StaffPension  b, depts c, dBranches d
+  where a.staffID = b.StaffID
+    and a.deptCode = c.Code
+    and a.BranchCode = d.Code
+go
+create view vwPensionByPM with encryption as
+ select 
+  a.staffID, a.FirstName,a.LastName,a.Pension,a.PensionOrg,
+  a.dLocation,a.dept,c.Description as PManager   
+from vwPensionReport a, staff b, PManagers c
+ where
+    a.staffID = b.staffID
+and b.PMCode = c.code
+go
+create view vw4Edit with encryption as
+select a.StaffID,a.PaymentCode,a.Amount,b.PaymentType    
+from CalcPay a,PaymentCodes b
+where a.PaymentCode = b.PaymentCode 
+go
+create view vw4Remuneration with encryption as
+select b.LevelDescription,c.PaymentDescription,a.Amount
+from PaymentAmounts a, PaymentLevels b,PaymentCodes c
+where
+a.LevelCode = b.LevelCode and
+a.PaymentCode = c.PaymentCode
+go
+create view vw4Reports with encryption as
+SELECT  a.StaffID, c.FirstName, c.LastName, a.StaffID + '-' + c.FirstName + ' ' + c.LastName AS Employee,
+ d.Description AS Dept, e.Description AS dLocation, f.LevelDescription AS PaymentLevel,
+ a.PaymentCode, b.PaymentDescription, a.Amount, b.Taxable, g.description as bank,
+CASE WHEN b.PaymentType <= '2' THEN '1-earnings' WHEN b.PaymentType > '2' THEN '2-deduction' END AS 'Payment Group',
+  b.dRank
+FROM   dbo.CalcPay AS a INNER JOIN
+       dbo.PaymentCodes AS b ON a.PaymentCode = b.PaymentCode INNER JOIN
+       dbo.staff AS c ON a.StaffID = c.staffID INNER JOIN
+       dbo.depts AS d ON c.deptCode = d.code INNER JOIN
+       dbo.dBranches AS e ON c.BranchCode = e.code INNER JOIN
+       dbo.PaymentLevels AS f ON c.LevelCode = f.LevelCode
+       inner join dbo.banks as g on c.BankCode = g.code
+go
+create view vw4ReportsYTD with encryption as
+SELECT  a.StaffID, c.FirstName, c.LastName, a.StaffID + '-' + c.FirstName + ' ' + c.LastName AS Employee,
+ d.Description AS Dept, e.Description AS dLocation, f.LevelDescription AS PaymentLevel,
+ a.PaymentCode, b.PaymentDescription, a.Amount, b.Taxable, g.description as bank,
+CASE WHEN b.PaymentType <= '2' THEN '1-earnings' WHEN b.PaymentType > '2' THEN '2-deduction' END AS 'Payment Group',
+  b.dRank
+FROM   dbo.CalcPayYTD AS a INNER JOIN
+       dbo.PaymentCodes AS b ON a.PaymentCode = b.PaymentCode INNER JOIN
+       dbo.staff AS c ON a.StaffID = c.staffID INNER JOIN
+       dbo.depts AS d ON c.deptCode = d.code INNER JOIN
+       dbo.dBranches AS e ON c.BranchCode = e.code INNER JOIN
+       dbo.PaymentLevels AS f ON c.LevelCode = f.LevelCode
+       inner join dbo.banks as g on c.BankCode = g.code
+go
+create view vw4ReportsARC with encryption as
+SELECT substring(a.dPeriod,9,2) + '(' + a.sPeriod + ')' as dPeriod, substring(a.dPeriod,5,4) as dYear, a.StaffID, c.FirstName, c.LastName, 
+ a.StaffID + '-' + c.FirstName + ' ' + c.LastName AS Employee,
+ d.Description AS Dept, e.Description AS dLocation, f.LevelDescription AS PaymentLevel,
+ a.PaymentCode, b.PaymentDescription, a.Amount, b.Taxable, g.description as bank,
+CASE WHEN b.PaymentType <= '2' THEN '1-earnings' WHEN b.PaymentType > '2' THEN '2-deduction' END AS 'Payment Group',
+  b.dRank
+FROM   dbo.CalcPayARC  AS a INNER JOIN
+       dbo.PaymentCodes AS b ON a.PaymentCode = b.PaymentCode INNER JOIN
+       dbo.staff AS c ON a.StaffID = c.staffID INNER JOIN
+       dbo.depts AS d ON c.deptCode = d.code INNER JOIN
+       dbo.dBranches AS e ON c.BranchCode = e.code INNER JOIN
+       dbo.PaymentLevels AS f ON c.LevelCode = f.LevelCode
+       inner join dbo.banks as g on c.BankCode = g.code
+go
+create view vw4Schedule with encryption as
+SELECT  a.StaffID, c.FirstName, c.LastName, a.StaffID + '-' + c.FirstName + ' ' + c.LastName AS Employee,
+ d.Description AS Dept, e.Description AS dLocation, f.LevelDescription AS PaymentLevel,
+ a.PaymentCode, b.PaymentDescription, a.Amount, b.Taxable, g.description as bank,
+CASE WHEN b.PaymentType <= '2' THEN '1-earnings' WHEN b.PaymentType > '2' THEN '2-deduction' END AS 'Payment Group',
+  b.dRank
+FROM   dbo.CalcPay AS a INNER JOIN
+       dbo.PaymentCodes AS b ON a.PaymentCode = b.PaymentCode INNER JOIN
+       dbo.staff AS c ON a.StaffID = c.staffID INNER JOIN
+       dbo.depts AS d ON c.deptCode = d.code INNER JOIN
+       dbo.dBranches AS e ON c.BranchCode = e.code INNER JOIN
+       dbo.PaymentLevels AS f ON c.LevelCode = f.LevelCode
+       inner join dbo.banks as g on c.BankCode = g.code
+go
+create view vwNetPay with encryption as
+select StaffID,SUM(amount) as NetPay 
+from CalcPay 
+group by StaffID 
+go
+create view vwBankSchedule with encryption as
+select a.StaffID + '-' + c.FirstName + ' ' + c.LastName AS Employee,
+a.NetPay,b.Description as dBank  from
+vwNetPay a,banks b, staff c
+where
+a.staffID = c.staffID and
+b.code = c.BankCode
+go
+create view vwCode4Pension with encryption as
+select a.PaymentCode,b.PaymentDescription,a.PaymentCode + ':' +b.PaymentDescription as sDisplay 
+from 
+Code4Pension a,PaymentCodes b
+where 
+a.PaymentCode = b.PaymentCode
+go
+create view vwDeptJobTitleDSP with encryption as
+select a.deptcode,a.jobtitleCode,a.jobtitleCode
++ ':' + a.Description as sDisplay
+from jobtitles a, depts b
+where
+a.deptcode = b.code
+go
+create view vwDepts with encryption as
+ select a.code,a.Description,b.FirstName + ' ' + b.LastName as DeptHead
+ from depts a, staff b
+ where
+ a.deptHead = b.staffID 
+go
+create view vwDeptsDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.depts
+go
+create view vwLocationsDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.dBranches
+go
+create view vwBanksDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.banks
+go 
+create view vwQualificationsDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.Qualifications
+go
+create view vwSpecializationsDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.Specializations
+go
+create view vwJobTitles with encryption as
+select b.Description as dept,a.jobtitleCode,a.Description as jobtitle
+from jobtitles a,depts b
+where
+a.deptcode = b.code
+go
+create view vwLoanRepayments with encryption as
+select a.staffID,b.FirstName,b.LastName,a.LoanID, a.LoanAmount,a.AmountRepaid,
+a.LoanAmount-a.AmountRepaid as dBalance,c.PaymentDescription as LoanType, PayThis
+from StaffLoans a, staff b, PaymentCodes c
+where 
+a.staffID = b.staffID
+and
+a.PaymentCode = c.PaymentCode
+and
+AmountRepaid < LoanAmount
+go
+create view vwOTime with encryption as
+select a.staffID,b.FirstName,b.LastName , 
+a.ONormal,a.OWeekend,a.OHoliday,a.Amount
+from OTime a,staff b
+where
+a.staffID = b.staffID  
+go
+create view vwPaidDays with encryption as
+select a.staffID,b.FirstName,b.LastName,a.DaysAbsent    
+from PaidDays a,staff b
+where
+a.staffID = b.staffID 
+go 
+create view vwPaymentCodes4E with encryption as
+select PaymentCode,PaymentDescription,PaymentCode + ':' +PaymentDescription as sDisplay 
+from PaymentCodes
+where 
+PaymentType = '0'
+go
+create view vwPaymentCodes4E1 with encryption as
+select PaymentCode,PaymentDescription,PaymentCode + ':' +PaymentDescription as sDisplay 
+from PaymentCodes
+where 
+PaymentType in ('2', '4')
+go
+create view vwPaymentCodes4E2 with encryption as
+select PaymentCode,PaymentDescription,PaymentCode + ':' +PaymentDescription as sDisplay 
+from PaymentCodes
+where 
+PaymentType = '1'
+go
+create view vwPaymentCodes4E4 with encryption as
+select PaymentCode,PaymentDescription,PaymentCode + ':' +PaymentDescription as sDisplay 
+from PaymentCodes
+where 
+PaymentType in ('0', '1','3')
+go
+create view vwPaymentCodesDSP with encryption as
+select PaymentCode,PaymentDescription,PaymentCode + ':' +PaymentDescription as sDisplay,dRank 
+from PaymentCodes
+go
+create view vwPaymentLevelsDSP with encryption as
+SELECT LevelCode,LevelDescription, LevelCode + ':' + LevelDescription AS sDisplay
+FROM  PaymentLevels
+go
+create view vwPaymentLevelsDSP3 with encryption as
+SELECT distinct a.LevelCode,LevelDescription, a.LevelCode + ':' + LevelDescription AS sDisplay
+FROM  PaymentLevels a, PaymentAmounts b
+where 
+ a.LevelCode = b.LevelCode
+go
+create view vwPeriodB with encryption as
+select a.staffID,xactionCode as PaymentCode,b.staffID + ':' + b.FirstName + ' ' + b.LastName as sDisplay
+from 
+FixedPayments a,staff b
+where
+a.staffID = b.staffID
+go
+create view vwVariablePayments with encryption as
+SELECT  a.staffID, a.xactionAmount, a.xactionDescription, b.FirstName, b.LastName, c.PaymentDescription
+FROM    dbo.VariablePayments AS a INNER JOIN
+        dbo.staff AS b ON a.staffID = b.staffID INNER JOIN
+        dbo.PaymentCodes AS c ON a.xactionCode = c.PaymentCode
+go
+create view vwFixedPayments with encryption as
+SELECT  dbo.FixedPayments.staffID, dbo.staff.FirstName, dbo.staff.LastName, 
+        dbo.PaymentCodes.PaymentDescription, dbo.PaymentLevels.LevelDescription, 
+        dbo.PaymentAmounts.Amount, dbo.FixedPayments.xactionDescription
+FROM    dbo.FixedPayments INNER JOIN
+        dbo.staff ON dbo.FixedPayments.staffID = dbo.staff.staffID INNER JOIN
+        dbo.PaymentCodes ON dbo.FixedPayments.xactionCode = dbo.PaymentCodes.PaymentCode INNER JOIN
+        dbo.PaymentAmounts ON dbo.PaymentCodes.PaymentCode = dbo.PaymentAmounts.PaymentCode INNER JOIN
+        dbo.PaymentLevels ON dbo.staff.LevelCode = dbo.PaymentLevels.LevelCode
+        AND dbo.PaymentAmounts.LevelCode = dbo.PaymentLevels.LevelCode
+go
+create view vwPManagersDSP with encryption as
+SELECT        code, code + ':' + Description AS sDisplay
+FROM            dbo.PManagers
+go
+create view vwStaff4Payroll with encryption as
+select  staffID,FirstName,LastName,b.Description as Department
+from staff a,depts b
+where
+a.deptCode=b.code
+go
+create view vwStaffDSP with encryption as
+SELECT staffID, staffID + ':' + FirstName + ' ' + LastName AS sDisplay
+FROM   dbo.staff
+WHERE  (blnxClude = 'n')
+go
+create view vwStaffList with encryption as
+SELECT     a.staffID, a.FirstName, a.LastName, b.Description AS Dept, 
+           c.Description AS dLocation, d.Description AS dJobTitle, a.birthdate, a.hiredate, 
+           e.LevelDescription AS dPaymentLevel, e.dGrossPay, dbo.stateCodes.Description AS ofOrigin,
+           stateCodes_1.Description AS ofResidence
+FROM       dbo.staff AS a INNER JOIN
+           dbo.depts AS b ON a.deptCode = b.code INNER JOIN
+           dbo.dBranches AS c ON a.BranchCode = c.code INNER JOIN
+           dbo.jobtitles AS d ON a.deptCode = d.deptcode AND a.jobtitleCode = d.jobtitleCode INNER JOIN
+           dbo.PaymentLevels AS e ON a.LevelCode = e.LevelCode INNER JOIN
+           dbo.stateCodes ON a.stateoforigin = dbo.stateCodes.code INNER JOIN
+           dbo.stateCodes AS stateCodes_1 ON a.stateofresidence = stateCodes_1.code
+go
+create view vwStaffPayCode with encryption as
+select a.staffID,a.xactionCode,a.staffID + '-' + a.xactionCode + ':'
++ c.staffID + ' ' + c.FirstName + ' ' + c.LastName + ',' + b.PaymentDescription as sDisplay
+from VariablePayments a, PaymentCodes b, staff c
+where
+a.staffID = c.staffID and
+a.xactionCode = b.PaymentCode
+go
+create view vwSelectedStaff10 with encryption as
+select staffID,blnxClude
+from staff
+go
+create view vwStaffNot4Payroll with encryption as
+SELECT  a.staffID, a.FirstName, a.LastName, b.Description AS Department
+FROM    dbo.staff AS a INNER JOIN
+        dbo.depts AS b ON a.deptCode = b.code
+WHERE
+a.blnxClude = 'y' 
+go
+create view vwStateOfOriginDSP with encryption as
+SELECT code, code + ':' + Description AS sDisplay
+FROM   dbo.stateCodes
+go
+create view vwBirthDates with encryption as
+select staffID,  birthdate, DATENAME(month,birthdate) as sMonth,
+DATEPART(yy ,birthdate) as nYear,
+DATEPART(month ,birthdate) as nMonth,
+DATEPART(day,birthdate) as nDay,
+DATEDIFF(yy ,birthdate,getdate()) as noofyears,
+FirstName,LastName,b.Description as dept,c.Description as dLocation  
+ from staff a,depts b, dBranches c
+ where
+  a.deptCode = b.code and
+  a.BranchCode = c.code  
+go
+create view vwHireDates with encryption as
+select staffID, hiredate , DATENAME(month,hiredate) as sMonth,
+DATEPART(yy ,hiredate) as nYear,
+DATEPART(month ,hiredate) as nMonth,
+DATEPART(day,hiredate) as nDay,
+DATEDIFF(yy ,hiredate,getdate()) as noofyears,
+FirstName,LastName,b.Description as dept,c.Description as dLocation  
+ from staff a,depts b, dBranches c
+ where
+  a.deptCode = b.code and
+  a.BranchCode = c.code  
+go
+--table valued
+create function [dbo].[fnLoanRepayments](@dDate datetime) returns table with encryption as
+return
+SELECT  a.staffID, b.FirstName, b.LastName, a.LoanID, a.LoanAmount, a.AmountRepaid, a.LoanAmount - a.AmountRepaid AS dBalance, c.PaymentDescription AS LoanType, a.PayThis
+FROM  dbo.StaffLoans AS a INNER JOIN
+      dbo.staff AS b ON a.staffID = b.staffID INNER JOIN
+      dbo.PaymentCodes AS c ON a.PaymentCode = c.PaymentCode
+WHERE (a.AmountRepaid < a.LoanAmount and a.startRepayment >= @dDate)
+go
+create view vwDates with encryption as
+select hiredate, DATENAME(month,hiredate) as sMonth,
+DATEPART(yy ,hiredate) as nYear,
+DATEPART(month ,hiredate) as nMonth,
+DATEPART(day,hiredate) as nDay,
+DATEDIFF(yy ,hiredate,getdate()) as noofyears,
+birthdate,DATEPART(yy ,birthdate) as nYear2,
+DATENAME(month,birthdate) as sMonth2,
+DATEPART(month ,birthdate) as nMonth2,
+DATEPART(day ,birthdate) as nDay2,
+DATEDIFF(yy ,birthdate,getdate()) as noofyears2  
+ from staff 
+go
+create function [dbo].[fnLoans4Edit](@dDate datetime) returns table with encryption as
+return
+select a.LoanID,convert(varchar(10),a.loanID) + ':'
+ + a.staffID + ' ' + b.FirstName + ' ' + b.LastName + '-' 
++ c.PaymentDescription as sDisplay 
+from
+StaffLoans a, staff b, PaymentCodes c
+where
+a.staffID = b.staffID
+and a.PaymentCode = c.PaymentCode
+and a.startRepayment >= @dDate
+go
+create function [dbo].[fnPaymentAmounts](@LevelCode varchar(25)) returns table with encryption as
+return
+select b.PaymentCode,b.PaymentDescription
+,c.Amount from PaymentLevels a, PaymentCodes b,  PaymentAmounts c
+where a.LevelCode = c.LevelCode and  b.PaymentCode = c.PaymentCode
+and a.LevelCode = @LevelCode
+go
+create function [dbo].[fnPaymentCodes](@lType char(1)) returns table with encryption as
+return
+select PaymentCode, PaymentDescription,
+ PaymentCode + ':' + PaymentDescription AS sDisplay
+from dbo.PaymentCodes
+where PaymentType = @lType
+go
+create function [dbo].[fnPaymentRates](@LevelCode varchar(25)) returns table with encryption as
+return
+select b.PaymentCode,b.PaymentDescription
+,c.dRate from PaymentLevels a, PaymentCodes b,  PaymentAmounts c
+where a.LevelCode = c.LevelCode and  b.PaymentCode = c.PaymentCode
+and a.LevelCode = @LevelCode
+go
+
+create function [dbo].[GetHeader] (@lPhrase varchar(20)) returns table  with encryption
+return
+select dID, CONVERT(varchar, decryptbypassphrase(@lPhrase, dName,0)) as dName,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dAddr1,0)) as dAddr1,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dAddr2,0)) as dAddr2,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dAddr3,0)) as dAddr3,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, Phone,0)) as Phone,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, email,0)) as email,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, website,0)) as website,
+dTaxMethod,dAmountMethod,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dExpiryDate,0)) as dExpiryDate,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dModules,0)) as dModules,blnConfirm
+from appSettings
+go
+create function [dbo].[GetUserAccounts] (@lPhrase varchar(20)) returns table with encryption
+return
+select lID, CONVERT(varchar, decryptbypassphrase(@lPhrase, dUserID,0)) as dUserID,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dPassword,0)) as dPassword,
+CONVERT(varchar, decryptbypassphrase(@lPhrase, dPermissions,0)) as dPermissions
+from dUserAccounts
+go
+--scalar valued
+create function [dbo].[GetCRA](@Income numeric(10,2)) returns numeric(10,2)  with encryption
+as
+begin
+  declare @t1p numeric(10,2)
+  declare @t20p numeric(10,2)
+  declare @cra numeric(10,2)
+  select @t1p = 0.01 * @Income
+  select @t20p = 0.2 * @Income
+  if @t1p > 20000
+	select @cra = @t1p
+  else
+	select @cra = @t20p + 20000
+  return @cra
+end
+go
+create procedure [dbo].[AddHeader]
+  (
+    @lPhrase varchar(20),
+    @sName varchar(45),
+    @sAddr1 varchar(30),
+    @sAddr2 varchar(30),
+    @sAddr3 varchar(30),
+    @sphone varchar(11),
+    @semail varchar(45),
+    @swebsite varchar(60),
+    @sTaxMethod  varchar(10),
+    @sAmountMethod  varchar(10),
+    @sExpiryDate varchar(10),
+    @sModules char(2),
+    @sConfirm varchar(5)
+    ) with encryption as
+begin
+	  delete from appSettings
+	  insert into appSettings
+	  (dID,dName,dAddr1,dAddr2,dAddr3,phone,email,website,
+           dTaxMethod,dAmountMethod,dExpiryDate,dModules,blnConfirm)
+       values 
+      (
+		 1,
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sName,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sAddr1,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sAddr2,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sAddr3,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sphone,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@semail,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@swebsite,0),
+         @sTaxMethod,
+         @sAmountMethod,
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sExpiryDate,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@sModules,0),
+         @sConfirm
+      )
+end
+go
+create procedure [dbo].[AddUserAccount]
+(@lUserID varchar(25),@lPassword varchar(25),
+@lPermissions varchar(25),@lPhrase varchar(20)) with encryption as
+begin
+
+
+ insert into dUserAccounts(dUserID,dPassword,dPermissions)
+   values 
+   (
+    ENCRYPTBYPASSPHRASE(@lPhrase,@lUserID,0),
+    ENCRYPTBYPASSPHRASE(@lPhrase,@lPassword,0),
+    ENCRYPTBYPASSPHRASE(@lPhrase,@lPermissions,0)
+  )
+end
+go
+create procedure [dbo].[calculateOvertime] with encryption as
+begin
+
+	declare @dCurrentPeriod datetime
+	declare @dstartPeriod datetime
+	declare @dendPeriod datetime
+	declare @noOfDays numeric(6,2)
+
+	select @dCurrentPeriod = (select currentPeriod from FiscalPeriods)	
+	select @dstartPeriod = @dCurrentPeriod
+--get no of days in the current period
+	select @dendPeriod = DATEADD(mm,1,@dstartPeriod)
+	select @dendPeriod = DATEADD(dd,-1,@dendPeriod)
+	select @noOfDays = DATEDIFF(dd,@dstartPeriod,@dendPeriod)-1
+
+--add basic pay to overtime table
+	update OTime set
+	basicPay = b.Amount/@noOfDays
+	from staff a,PaymentAmounts b, OTime c, PayrollCodes d
+	where
+	a.staffID=c.staffID
+	and a.LevelCode = b.LevelCode
+	and d.BasicPayCode = b.PaymentCode
+--calculate overtime
+	update OTime set
+	Amount = a.BasicPay*(a.ONormal*b.ONormal
+   + a.Oweekend*b.Oweekend + a.Oholiday*b.OHoliday)
+	from OTime a, PayrollCodes b
+end
+go
+create procedure [dbo].[calculatePension] with encryption as
+begin
+	delete from StaffPension
+	insert into StaffPension
+	select a.staffID,SUM(b.Amount),
+	SUM(b.Amount * d.PensionRateStaff),SUM(b.Amount * d.PensionRateOrg)
+	from staff a,PaymentAmounts b,Code4Pension c,PayrollCodes d,PaymentCodes e
+	where
+    a.LevelCode = b.LevelCode
+	and c.PaymentCode = b.PaymentCode
+	and b.PaymentCode = e.PaymentCode
+	and e.PaymentType = '0'
+	and b.Amount > 0
+	and a.blnxClude = 'n'
+	group by a.staffID
+end
+go
+create procedure [dbo].[GetEarnedIncome] with encryption as
+begin
+
+	declare @dCurrentPeriod datetime
+	declare @dstartPeriod datetime
+	declare @dendPeriod datetime
+	declare @noOfDays numeric(6,2)
+
+	select @dCurrentPeriod = (select currentPeriod from FiscalPeriods)	
+	select @dstartPeriod = @dCurrentPeriod
+--get no of days in the current period
+	select @dendPeriod = DATEADD(mm,1,@dstartPeriod)
+	select @dendPeriod = DATEADD(dd,-1,@dendPeriod)
+	select @noOfDays = DATEDIFF(dd,@dstartPeriod,@dendPeriod)-1
+
+
+	delete from StaffTax
+--add earnings payable every month
+	insert into StaffTax
+	select a.staffID, SUM(b.amount),0
+	from
+	staff a,PaymentAmounts b, PaymentCodes c
+	where
+    a.LevelCode = b.LevelCode
+	and b.PaymentCode = c.PaymentCode
+	and c.Taxable = 'yes'
+	and c.PaymentType = '0'
+	and b.Amount > 0
+	and a.blnxClude = 'n'
+	group by a.staffID
+--pro-rata monthly earnings
+	update StaffTax set 
+		Amount = a.Amount*(b.DaysAbsent/@noOfDays)
+	from StaffTax a,PaidDays b
+	where 
+		a.StaffID = b.staffID		
+--get annual amount
+    update StaffTax set
+    Amount = Amount * 12
+--add earnings from Period Input A-Variable Earnings and Deductions
+	update StaffTax set
+	Amount = a.Amount + b.xactionAmount
+	from StaffTax a, VariablePayments b, PaymentCodes c
+	where a.StaffID = b.staffID
+	and b.xactionCode = c.PaymentCode
+	and c.PaymentType = '2'
+--add earnings from Period Input B-FixedPayments
+  --first update amount field in period input b
+	update FixedPayments set
+	xactionAmount = b.Amount
+	from FixedPayments a,PaymentAmounts b, staff c
+	where
+	a.staffID = c.staffID 
+	and a.xactionCode = b.PaymentCode
+	and b.LevelCode = c.LevelCode 
+	and b.Amount > 0
+	and c.blnxClude = 'n'
+  --then update 
+	update StaffTax set
+	Amount = a.Amount + b.xactionAmount
+	from StaffTax a, FixedPayments b
+	where a.StaffID = b.staffID
+--add overtime
+	execute calculateOvertime
+	update StaffTax set
+	Amount = b.Amount
+	from StaffTax a, OTime b
+	where
+	a.StaffID = b.staffID
+end
+go
+create procedure [dbo].[GetFIRSTaxable] with encryption as
+begin
+	execute GetEarnedIncome
+	delete from FIRSTax
+	insert into FIRSTax
+	select StaffID,Amount,0,0,0,0
+	from StaffTax
+--calculate CRA
+	update FIRSTax set
+	CRA = dbo.GetCRA(EarnedIncome)
+--add tax relief
+	execute calculatePension
+	update FIRSTax
+	set TaxRelief = b.Pension * 12
+	from FIRSTax a,StaffPension b
+	where a.staffID = b.StaffID
+--calculate Taxable Income
+	update FIRSTax set
+	Taxable = EarnedIncome - (CRA + TaxRelief)
+end
+go
+create procedure [dbo].[closePeriod] with encryption as
+begin
+	declare @dYear1 varchar(4)
+	declare @dYear2 varchar(4)
+	declare @dYear varchar(8)
+	
+	declare @sPeriod varchar(25)
+	declare @dPeriod varchar(2)
+	declare @nPeriod int
+
+        select @sPeriod = (select CONVERT(varchar(11),CurrentPeriod,9) + '-' 
+                          + CONVERT(varchar(11), (DATEADD(m,1,CurrentPeriod-1)),9)   from FiscalPeriods)
+	select @dPeriod = (select DATEDIFF(m,FirstPeriod,CurrentPeriod)+1 from FiscalPeriods)
+	select @dYear1 = (select YEAR(currentPeriod) from FiscalPeriods)
+	select @dYear2 = (select YEAR(LastPeriod) from FiscalPeriods)
+	select @dYear = @dYear1 + @dYear2
+	insert into CalcPayARC
+	select @dYear+REPLICATE('0',2-datalength(@dPeriod))+@dPeriod,StaffID, PaymentCode,Amount,@sPeriod from CalcPay
+	update FiscalPeriods set
+	CurrentPeriod = DATEADD(m,1,CurrentPeriod)
+	select @nPeriod = (select DATEDIFF(m,FirstPeriod,CurrentPeriod)+1 from FiscalPeriods)
+	if @nPeriod > 12
+		begin
+			update FiscalPeriods set
+			FirstPeriod = DATEADD(m,12,FirstPeriod),
+			CurrentPeriod = DATEADD(m,12,FirstPeriod),
+			LastPeriod = DATEADD(m,12,LastPeriod),
+			FiscalYear = FiscalYear + 1
+		end
+	--archive repayments
+	insert into LoanRepayments(LoanID,RepaymentAmount,dPeriod)
+	select LoanID,PayThis,@dYear+REPLICATE('0',2-datalength(@dPeriod))+@dPeriod 
+	from StaffLoans 
+	where AmountRepaid < LoanAmount and
+	PayThis > 0
+	--update year-to-date totals
+	--update existing values
+	update CalcPayYTD set
+	Amount = a.Amount + b.Amount   
+	from CalcPayYTD a,CalcPay b
+	where
+	a.StaffID = b.StaffID and
+	b.PaymentCode = b.PaymentCode 
+	--delete these records
+	delete from CalcPay 
+	from CalcPayYTD a,CalcPay b	
+	where
+	a.StaffID = b.StaffID and
+	b.PaymentCode = b.PaymentCode 
+	--add new values
+	insert into CalcPayYTD 
+	select * from CalcPay
+	--empty transaction  tables
+	delete from CalcPay 
+	--add back all staff for the next payroll
+	update staff set blnxClude = 'n'
+	--clear period input
+	delete from VariablePayments 
+	where blnCleared = 'yes'
+	delete from FixedPayments 
+	where blnCleared = 'yes'
+	--clear pro-rata table
+	delete from PaidDays
+	--clear ovetime table
+	delete from OTime
+
+end
+go
+create procedure [dbo].[calculatePayroll] with encryption as
+begin
+
+	declare @TaxMethod varchar(10)
+	declare @dCurrentPeriod datetime
+	declare @dstartPeriod datetime
+	declare @dendPeriod datetime
+	declare @noOfDays numeric(6,2)
+
+	select @dCurrentPeriod = (select currentPeriod from FiscalPeriods)
+	
+	select @dstartPeriod = @dCurrentPeriod
+--get no of days in the current period
+	select @dendPeriod = DATEADD(mm,1,@dstartPeriod)
+	select @dendPeriod = DATEADD(dd,-1,@dendPeriod)
+	select @noOfDays = DATEDIFF(dd,@dstartPeriod,@dendPeriod)-1
+	
+	select @TaxMethod = (select dTaxMethod from appSettings) 
+	delete from CalcPay
+--add earnings payable every month
+	insert into CalcPay
+	select a.staffID,b.PaymentCode,c.Amount
+	from staff a,PaymentCodes b,PaymentAmounts c
+	where
+	a.LevelCode = c.LevelCode and
+	b.PaymentCode = c.PaymentCode and
+	b.PaymentType in ( '0') and
+	c.Amount > 0
+	and a.blnxClude = 'n'
+	update PayrollSummary set earn1 = @@rowcount
+--pro-rata monthly earnings
+	update CalcPay set 
+		Amount = a.Amount*(b.DaysAbsent/@noOfDays)
+	from CalcPay a,PaidDays b
+	where 
+		a.StaffID = b.staffID	
+	update PayrollSummary set prorata = @@rowcount
+--add deductions payable every month(including pension)
+	insert into CalcPay
+	select a.staffID,b.PaymentCode,c.Amount
+	from staff a,PaymentCodes b,PaymentAmounts c
+	where
+	a.LevelCode = c.LevelCode and
+	b.PaymentCode = c.PaymentCode and
+	b.PaymentType in ( '3') and
+	c.Amount > 0
+	and a.blnxClude = 'n'	
+	update PayrollSummary set deduct1 = @@rowcount
+--add earnings and deductions from period input-A
+	insert into CalcPay
+	select staffID,xactionCode,xactionAmount from VariablePayments
+	update PayrollSummary set earndeduct = @@rowcount
+--add earnings from period input-B
+  --first update amount field in period input b
+	update FixedPayments set
+	xactionAmount = b.Amount
+	from FixedPayments a,PaymentAmounts b, staff c
+	where
+	a.staffID = c.staffID 
+	and a.xactionCode = b.PaymentCode
+	and b.LevelCode = c.LevelCode 
+	and b.Amount > 0
+	and c.blnxClude = 'n'
+  --then add these values
+	insert into CalcPay
+	select staffID,xactionCode,xactionAmount from FixedPayments
+	update PayrollSummary set earnfixed = @@rowcount
+--add paye	
+	if @TaxMethod = 'FLAT' 
+	  begin
+  --get earned income	
+	    execute GetEarnedIncome
+  --calculate paye (using flat rate)
+		update StaffTax set
+		Tax = Amount * b.TaxRate
+		from StaffTax a, PayrollCodes b
+  --add paye
+		insert into CalcPay
+		select a.StaffID,b.TaxCode,a.Tax
+		from
+		StaffTax a, PayrollCodes b
+	  end			
+    if @TaxMethod = 'FIRS'
+	  begin    
+		insert into calcPay 
+		select a.staffID,b.TaxCode,a.Tax
+		from FIRSTax a,PayrollCodes b
+		update PayrollSummary set paye = @@rowcount
+	  end	
+--add pension	  		
+	execute calculatePension
+	insert into CalcPay
+	select a.StaffID,b.PensionCode,a.Pension
+	from
+	StaffPension a, PayrollCodes b
+--add loan repayment
+	insert into CalcPay
+	select staffID,PaymentCode,PayThis 
+	from StaffLoans
+	where AmountRepaid < LoanAmount
+	and PayThis > 0
+	and startRepayment <= @dCurrentPeriod	
+	update PayrollSummary set repay = @@rowcount
+  --update AmountRepaid
+	update StaffLoans set
+	AmountRepaid = AmountRepaid + PayThis 
+	where AmountRepaid < LoanAmount
+	and PayThis > 0
+	and startRepayment <= @dCurrentPeriod		
+--add overtime
+	execute calculateOvertime
+	insert into calcPay
+	select a.staffID,b.OCode,a.Amount
+	from OTime a, PayrollCodes b
+	update PayrollSummary set overT = @@rowcount
+--change the sign of deductions
+	update vw4Edit set
+        Amount = -Amount
+        where PaymentType in ('3','4','5')
+end
+go
+create procedure [dbo].[MaintainUserAccounts](@lUserID varchar(25),@lPassword varchar(25),
+@lPermissions varchar(25),@lPhrase varchar(20),@lAction varchar(15),@dID bigint) with encryption as
+begin
+  if @lAction = 'insert'
+    begin
+       insert into dUserAccounts(dUserID,dPassword,dPermissions)
+       values 
+      (
+         ENCRYPTBYPASSPHRASE(@lPhrase,@lUserID,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@lPassword,0),
+         ENCRYPTBYPASSPHRASE(@lPhrase,@lPermissions,0)
+       )
+    end
+  else if @lAction = 'delete'
+    begin
+		delete from dUserAccounts where lID = @dID
+    end
+  else if @lAction = 'update'
+    begin
+       update dUserAccounts set 
+       dPassword = ENCRYPTBYPASSPHRASE(@lPhrase,@lPassword,0),
+       dPermissions = ENCRYPTBYPASSPHRASE(@lPhrase,@lPermissions,0)
+       where lID = @dID
+    end
+end
+go
+create procedure AddToGenDB with encryption as
+begin
+
+	delete from GenDB.dbo.calcPay
+	delete from GenDB.dbo.staff
+	delete from GenDB.dbo.PayrollCodes
+	delete from GenDB.dbo.PaymentAmounts
+	delete from GenDB.dbo.PaymentCodes
+	delete from GenDB.dbo.PaymentLevels
+	delete from GenDB.dbo.banks
+	delete from GenDB.dbo.PManagers
+	delete from GenDB.dbo.jobtitles
+	delete from GenDB.dbo.depts
+	delete from GenDB.dbo.dBranches
+	delete from GenDB.dbo.qualifications
+	delete from GenDB.dbo.specializations
+	insert into GenDB.dbo.banks
+	select * from banks 
+	insert into GenDB.dbo.dBranches 
+	select * from dBranches 
+	insert into GenDB.dbo.PManagers 
+	select * from PManagers  
+ 	insert into GenDB.dbo.Qualifications 
+	select * from Qualifications 
+	insert into GenDB.dbo.Specializations 
+	select * from Specializations 
+	insert into GenDB.dbo.depts 
+	select * from depts  
+	insert into GenDB.dbo.jobtitles 
+	select * from jobtitles 
+	insert into GenDB.dbo.PaymentLevels 
+	select * from PaymentLevels 
+	insert into GenDB.dbo.PaymentCodes 
+	select * from PaymentCodes 
+	insert into GenDB.dbo.PayrollCodes
+	select * from PayrollCodes 
+	insert into GenDB.dbo.PaymentAmounts 
+	select * from PaymentAmounts 
+	insert into GenDB.dbo.staff 
+	select * from staff 
+	insert into GenDB.dbo.CalcPay 
+	select * from CalcPay 
+
+end
+go
+create procedure AddToGenDB2 with encryption as
+begin
+	delete from GenDB.dbo.CalcPay
+	delete from GenDB.dbo.CalcPayYTD 
+	delete from GenDB.dbo.CalcPayARC 	
+	delete from GenDB.dbo.staff
+	delete from GenDB.dbo.PayrollCodes
+	delete from GenDB.dbo.PaymentAmounts
+	delete from GenDB.dbo.PaymentCodes
+	delete from GenDB.dbo.PaymentLevels
+	delete from GenDB.dbo.banks
+	delete from GenDB.dbo.PManagers
+	delete from GenDB.dbo.jobtitles
+	delete from GenDB.dbo.depts
+	delete from GenDB.dbo.dBranches
+	delete from GenDB.dbo.qualifications
+	delete from GenDB.dbo.specializations
+	insert into GenDB.dbo.banks
+	select * from banks 
+	insert into GenDB.dbo.dBranches 
+	select * from dBranches 
+	insert into GenDB.dbo.PManagers 
+	select * from PManagers  
+ 	insert into GenDB.dbo.Qualifications 
+	select * from Qualifications 
+	insert into GenDB.dbo.Specializations 
+	select * from Specializations 
+	insert into GenDB.dbo.depts 
+	select * from depts  
+	insert into GenDB.dbo.jobtitles 
+	select * from jobtitles 
+	insert into GenDB.dbo.PaymentLevels 
+	select * from PaymentLevels 
+	insert into GenDB.dbo.PaymentCodes 
+	select * from PaymentCodes 
+	insert into GenDB.dbo.PayrollCodes
+	select * from PayrollCodes 
+	insert into GenDB.dbo.PaymentAmounts 
+	select * from PaymentAmounts 
+	insert into GenDB.dbo.staff 
+	select * from staff 
+	insert into GenDB.dbo.CalcPayYTD  
+	select * from CalcPayYTD  
+	insert into GenDB.dbo.CalcPayARC  
+	select * from CalcPayARC
+	  
+end
+go
+create procedure addPension with encryption as
+begin
+  delete from PaymentAmounts
+  from PaymentAmounts a,PayrollCodes b
+  where
+	a.PaymentCode = b.PensionCode
+  insert into PaymentAmounts
+  select a.LevelCode,d.PensionCode,0,sum(b.amount*d.PensionRateStaff)
+  from
+	PaymentLevels a,PaymentAmounts b, Code4Pension c, PayrollCodes d
+  where
+    a.LevelCode = b.LevelCode and
+    b.PaymentCode = c.PaymentCode
+  group by a.LevelCode,d.PensionCode
+end
+go
